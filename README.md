@@ -2,6 +2,8 @@
 
 This is a sample project to illustrate how to configure hibernate 2nd level caching using redis as a cache provider. The project also contains configuration of swagger API documentation for secured APIs.
 
+To test the caching implementation you must have [Redis](https://redis.io/download) installed.
+
 ### Reference Documentation
 
 For reference on technologies used in this project, please consider the following sections:

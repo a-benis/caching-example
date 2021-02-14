@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.QueryHint;
-import java.util.Optional;
 
 /**
  * The interface Book repository.
@@ -22,16 +21,6 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 	@Override
 	@QueryHints(@QueryHint(name = org.hibernate.annotations.QueryHints.CACHEABLE, value = "true"))
 	Iterable<Book> findAll();
-
-	/**
-	 * Find by id optional.
-	 *
-	 * @param id the id
-	 * @return the optional
-	 */
-	@Override
-	@QueryHints(@QueryHint(name = org.hibernate.annotations.QueryHints.CACHEABLE, value = "true"))
-	Optional<Book> findById(Long id);
 
 	/**
 	 * Find book by book type iterable.
