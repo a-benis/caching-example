@@ -114,16 +114,18 @@ public class CachingExampleService implements ICachingExampleService {
 			JsonElement jsonElement = gson.toJsonTree(obj);
 			JsonObject jsonObject = jsonElement.getAsJsonObject();
 			Map<String, Object> map = gson.fromJson(jsonObject, Map.class);
-			map.put(TOTAL_SLOTS, ((Double) map.get(TOTAL_SLOTS)).longValue());
-			map.put(USED_SLOTS, ((Double) map.get(USED_SLOTS)).longValue() + 1);
-			map.put(AVAILABLE_SLOTS, (Long) map.get(TOTAL_SLOTS) - (Long) map.get(USED_SLOTS));
 
 			/* Calculate expiration time */
 			long currentTime = System.currentTimeMillis();
 			long expirationTime = ((Double) map.get(EXPIRATION_TIME)).longValue();
 			long periodInSeconds = TimeUnit.MILLISECONDS.toSeconds(expirationTime - currentTime);
 
-			exampleCache.put(id, map, periodInSeconds, TimeUnit.MINUTES);
+			map.put(TOTAL_SLOTS, ((Double) map.get(TOTAL_SLOTS)).longValue());
+			map.put(USED_SLOTS, ((Double) map.get(USED_SLOTS)).longValue() + 1);
+			map.put(AVAILABLE_SLOTS, (Long) map.get(TOTAL_SLOTS) - (Long) map.get(USED_SLOTS));
+			map.put(EXPIRATION_TIME, expirationTime);
+
+			exampleCache.put(id, map, periodInSeconds, TimeUnit.SECONDS);
 			return exampleCache.get(id);
 		} else {
 			return obj;
