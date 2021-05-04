@@ -1,7 +1,10 @@
 package com.example.caching_example.book.controller;
 
 import com.example.caching_example.book.domain.Book;
+import com.example.caching_example.book.dto.CachingDataDto;
 import com.example.caching_example.book.repo.BookRepository;
+import com.example.caching_example.book.service.ICachingExampleService;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +35,12 @@ public class BookController {
 	 */
 	@Autowired
 	private BookRepository bookRepository;
+
+	/**
+	 * The Caching example service.
+	 */
+	@Autowired
+	private ICachingExampleService cachingExampleService;
 
 	/**
 	 * Gets all books.
@@ -113,5 +124,50 @@ public class BookController {
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return response;
+	}
+
+	/**
+	 * Store object string.
+	 *
+	 * @param key            the key
+	 * @param cachingDataDto the caching data dto
+	 * @return the string
+	 * @throws IOException the io exception
+	 */
+	@PostMapping("/store/caching-example")
+	public String storeObject(@Valid @RequestHeader String key, @Valid @RequestBody CachingDataDto cachingDataDto) throws IOException {
+		Object obj = cachingExampleService.storeObjectInCache(key, cachingDataDto);
+		Gson gson = new Gson();
+		return gson.toJson(obj);
+	}
+
+	/**
+	 * Read object string.
+	 *
+	 * @param key   the key
+	 * @param value the value
+	 * @return the string
+	 * @throws IOException the io exception
+	 */
+	@GetMapping("/read/caching-example")
+	public String readObject(@Valid @RequestHeader String key, @Valid @RequestHeader String value) throws IOException {
+		Object obj = cachingExampleService.readObjectFromCache(key, value);
+		Gson gson = new Gson();
+		return gson.toJson(obj);
+	}
+
+	/**
+	 * Update object string.
+	 *
+	 * @param key   the key
+	 * @param value the value
+	 * @return the string
+	 * @throws IOException the io exception
+	 */
+	@PutMapping("/update/caching-example")
+	public String updateObject(@Valid @RequestHeader String key, @Valid @RequestHeader String value) throws IOException {
+		Object obj = cachingExampleService.updateInCache(key, value);
+		Gson gson = new Gson();
+		return gson.toJson(obj);
 	}
 }

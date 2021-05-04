@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "book")
 @Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "book")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Book")
 public class Book implements Serializable {
 
 	/**
