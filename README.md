@@ -22,11 +22,23 @@ For more general reference, consider the following section:
 
 ### Guides
 
-To get an authentication token, use:
+1. To run the application using docker:
+    - Must have [docker](https://docs.docker.com/get-started/) up and running (obviously!)
+    - Build the application image using: `docker build -t springio/caching-example .`
+    - Run the built image using: `docker run --net="host" --name caching-example springio/caching-example`
 
-###### **username:** `testing`
 
-###### **password:** `tester`
+2. To run the application using maven:
+    - Must have [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) or later installed
+    - Must have [Maven 3.2+](https://maven.apache.org/download.cgi) installed
+    - Build the application jar using: `mvn package`
+    - Run the application using: `java -jar target/caching-example-0.0.1-SNAPSHOT.jar`
+
+
+3. To get an authentication token, use:
+
+        username: testing
+        password: tester
 
 The following guides illustrate how to use some features concretely:
 
